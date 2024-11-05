@@ -35,6 +35,13 @@ resource "aws_instance" "instance" {
   root_block_device {
     volume_size = var.volume_size
   }
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+    ]
+  }
+
 }
 
 resource "null_resource" "ansible-pull" {
