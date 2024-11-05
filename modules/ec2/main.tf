@@ -38,6 +38,11 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "ansible-pull" {
+
+  triggers = {
+    instance_id = aws_instance.instance.id
+  }
+
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
