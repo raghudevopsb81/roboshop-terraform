@@ -74,7 +74,6 @@ eks = {
   subnet_ids = ["subnet-0792461b5224de598", "subnet-033b518ba99521b88"]
   addons = {
     vpc-cni = {}
-    coredns = {}
     kube-proxy = {}
   }
 
