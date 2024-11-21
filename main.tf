@@ -47,4 +47,7 @@ module "eks" {
   subnet_ids = var.eks["subnet_ids"]
 }
 
+output "aut" {
+  value = module.eks
+}
 
