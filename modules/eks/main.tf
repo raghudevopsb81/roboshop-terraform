@@ -16,6 +16,7 @@ resource "aws_eks_addon" "vpc-cni" {
 }
 
 resource "aws_eks_node_group" "main" {
+  depends_on = [aws_eks_addon.vpc-cni]
   for_each = var.node_groups
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = each.key
