@@ -19,3 +19,24 @@ resource "helm_release" "nginx-ingress" {
   ]
 }
 
+## ArgoCD Setup
+resource "helm_release" "argocd" {
+  depends_on = [null_resource.kube-bootstrap]
+
+  name             = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  create_namespace = true
+  wait             = false
+
+  set {
+    name  = "global.domain"
+    value = "argocd-${var.env}.rdevopsb81.online"
+  }
+
+  values = [
+    file("${path.module}/helm-config/argocd.yml")
+  ]
+}
+
