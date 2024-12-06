@@ -12,7 +12,5 @@ controller:
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
     type: LoadBalancer
     externalTrafficPolicy: Local
-  config:
-    force-ssl-redirect: "true"
-    ssl-redirect: "true"
+
 
