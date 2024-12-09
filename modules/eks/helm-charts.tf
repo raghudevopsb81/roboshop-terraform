@@ -20,9 +20,30 @@ resource "helm_release" "nginx-ingress" {
   ]
 }
 
+## External DNS
+resource "helm_release" "external-dns" {
+  depends_on = [null_resource.kube-bootstrap, helm_release.nginx-ingress]
+
+  name             = "external-dns"
+  repository       = "https://kubernetes-sigs.github.io/external-dns"
+  chart            = "external-dns"
+  namespace        = "devops"
+  create_namespace = true
+  wait             = false
+
+  set {
+    name  = "global.domain"
+    value = "argocd-${var.env}.rdevopsb81.online"
+  }
+
+  values = [
+    file("${path.module}/helm-config/argocd.yml")
+  ]
+}
+
 ## ArgoCD Setup
 resource "helm_release" "argocd" {
-  depends_on = [null_resource.kube-bootstrap]
+  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns ]
 
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
@@ -40,4 +61,5 @@ resource "helm_release" "argocd" {
     file("${path.module}/helm-config/argocd.yml")
   ]
 }
+
 
