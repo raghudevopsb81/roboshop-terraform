@@ -30,15 +30,6 @@ resource "helm_release" "external-dns" {
   namespace        = "devops"
   create_namespace = true
   wait             = false
-
-  set {
-    name  = "global.domain"
-    value = "argocd-${var.env}.rdevopsb81.online"
-  }
-
-  values = [
-    file("${path.module}/helm-config/argocd.yml")
-  ]
 }
 
 ## ArgoCD Setup
