@@ -5,3 +5,10 @@ grafana:
     hosts:
       - grafana-dev.rdevopsb82.online
 
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus-dev.rdevopsb82.online
+
