@@ -7,9 +7,6 @@ controller:
       targetPort: 80
     httpsPort:
       targetPort: 80
-    targetPorts:
-      http: http
-      https: 80
     enabled: true
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
