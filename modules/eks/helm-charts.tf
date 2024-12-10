@@ -54,3 +54,15 @@ resource "helm_release" "argocd" {
 }
 
 
+## Prometheus Stack Setup
+resource "helm_release" "prom-stack" {
+  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns ]
+
+  name             = "prometheus"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "kube-prometheus-stack"
+  namespace        = "devops"
+  create_namespace = true
+  wait             = false
+}
+
