@@ -64,5 +64,10 @@ resource "helm_release" "prom-stack" {
   namespace        = "devops"
   create_namespace = true
   wait             = false
+
+  values = [
+    file("${path.module}/helm-config/prom-stack.yml")
+  ]
+
 }
 
