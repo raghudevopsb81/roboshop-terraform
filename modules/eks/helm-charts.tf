@@ -82,3 +82,35 @@ resource "helm_release" "external-secrets" {
   create_namespace = true
   wait             = false
 }
+
+resource "null_resource" "external-secret" {
+  depends_on = [helm_release.external-secrets]
+
+  provisioner "local-exec" {
+    command = <<EOF
+kubectl apply -f - <<EOK
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vault-token
+data:
+  token: aHZzLm85R1NRbnpXNFNMTmhZSWE4aVllWlNuVQ==
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: vault-backend
+spec:
+  provider:
+    vault:
+      server: "http://vault-internal.rdevopsb81.online:8200"
+      path: "roboshop-${var.env}"
+      version: "v2"
+      auth:
+        tokenSecretRef:
+          name: "vault-token"
+          key: "token"
+EOK
+EOF
+  }
+}
