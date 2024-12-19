@@ -1,5 +1,6 @@
 ---
 daemonset:
+  extraEnvs: []
   filebeatConfig:
     filebeat.yml: |
       filebeat.inputs:
