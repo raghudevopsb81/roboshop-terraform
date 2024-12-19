@@ -1,6 +1,7 @@
 ---
 daemonset:
   extraEnvs: []
+  secretMounts: []
   filebeatConfig:
     filebeat.yml: |
       filebeat.inputs:
