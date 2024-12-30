@@ -179,7 +179,7 @@ resource "aws_iam_role" "cluster-autoscaler" {
 resource "aws_eks_pod_identity_association" "cluster-autoscaler-dns" {
   cluster_name    = aws_eks_cluster.main.name
   namespace       = "devops"
-  service_account = "cluster-autoscaler"
+  service_account = "cluster-autoscaler-aws-cluster-autoscaler"
   role_arn        = aws_iam_role.cluster-autoscaler.arn
 }
 
