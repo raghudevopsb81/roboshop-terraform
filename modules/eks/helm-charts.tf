@@ -4,6 +4,7 @@ resource "null_resource" "kube-bootstrap" {
     command =<<EOF
 aws eks update-kubeconfig  --name ${var.env}-eks
 kubectl create ns devops
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 EOF
   }
 }
@@ -132,3 +133,4 @@ resource "helm_release" "filebeat" {
   ]
 
 }
+
