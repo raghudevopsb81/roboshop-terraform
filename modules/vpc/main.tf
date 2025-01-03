@@ -21,11 +21,14 @@ resource "aws_vpc_peering_connection" "main" {
 }
 
 resource "aws_route" "main" {
-  route_table_id         = aws_vpc.main.default_route_table_id
-  destination_cidr_block = var.default_vpc["cidr"]
+  route_table_id            = aws_vpc.main.default_route_table_id
+  destination_cidr_block    = var.default_vpc["cidr"]
+  vpc_peering_connection_id = aws_vpc_peering_connection.main.id
 }
 
 resource "aws_route" "default-vpc-route-table" {
-  route_table_id         = var.default_vpc["route_table"]
-  destination_cidr_block = var.cidr_block
+  route_table_id            = var.default_vpc["route_table"]
+  destination_cidr_block    = var.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.main.id
+
 }
