@@ -112,5 +112,13 @@ vpc = {
   main = {
     cidr_block = "10.0.0.0/24"
   }
+  subnets = {
+    one = {
+      cidr_block = "10.0.0.0/25"
+    }
+    two = {
+      cidr_block = "10.0.0.128/25"
+    }
+  }
 }
 

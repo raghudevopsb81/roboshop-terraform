@@ -3,7 +3,7 @@ module "vpc" {
   source     = "./modules/vpc"
   env        = var.env
   cidr_block = each.value["cidr_block"]
-
+  subnets    = each.value["subnets"]
 }
 
 # module "db_instances" {
