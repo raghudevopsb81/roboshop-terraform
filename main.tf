@@ -1,7 +1,9 @@
 module "vpc" {
   for_each   = var.vpc
   source     = "./modules/vpc"
+  env        = var.env
   cidr_block = each.value["cidr_block"]
+
 }
 
 # module "db_instances" {
