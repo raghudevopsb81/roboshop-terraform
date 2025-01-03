@@ -1,7 +1,7 @@
 resource "null_resource" "kube-bootstrap" {
   depends_on = [aws_eks_cluster.main, aws_eks_node_group.main]
   provisioner "local-exec" {
-    command =<<EOF
+    command = <<EOF
 aws eks update-kubeconfig  --name ${var.env}-eks
 kubectl create ns devops
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -11,9 +11,9 @@ EOF
 
 resource "helm_release" "nginx-ingress" {
   depends_on = [null_resource.kube-bootstrap]
-  chart = "oci://ghcr.io/nginxinc/charts/nginx-ingress"
-  name  = "nginx-ingress"
-  namespace = "devops"
+  chart      = "oci://ghcr.io/nginxinc/charts/nginx-ingress"
+  name       = "nginx-ingress"
+  namespace  = "devops"
   wait       = true
 
   values = [
@@ -35,7 +35,7 @@ resource "helm_release" "external-dns" {
 
 ## ArgoCD Setup
 resource "helm_release" "argocd" {
-  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns ]
+  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns]
 
   name             = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
@@ -57,7 +57,7 @@ resource "helm_release" "argocd" {
 
 ## Prometheus Stack Setup
 resource "helm_release" "prom-stack" {
-  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns ]
+  depends_on = [null_resource.kube-bootstrap, helm_release.external-dns]
 
   name             = "prometheus"
   repository       = "https://prometheus-community.github.io/helm-charts"

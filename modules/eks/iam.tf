@@ -1,5 +1,5 @@
 resource "aws_iam_role" "eks-cluster-role" {
-  name               = "${var.env}-eks-role"
+  name = "${var.env}-eks-role"
 
   assume_role_policy = <<EOF
 {
@@ -63,16 +63,16 @@ resource "aws_iam_role" "external-dns" {
   name = "${var.env}-eks-external-dns-pod"
 
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": [
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : [
             "pods.eks.amazonaws.com"
           ]
         },
-        "Action": [
+        "Action" : [
           "sts:AssumeRole",
           "sts:TagSession"
         ]
@@ -84,25 +84,25 @@ resource "aws_iam_role" "external-dns" {
     name = "external-dns-policy"
 
     policy = jsonencode({
-      "Version": "2012-10-17",
-      "Statement": [
+      "Version" : "2012-10-17",
+      "Statement" : [
         {
-          "Effect": "Allow",
-          "Action": [
+          "Effect" : "Allow",
+          "Action" : [
             "route53:ChangeResourceRecordSets"
           ],
-          "Resource": [
+          "Resource" : [
             "arn:aws:route53:::hostedzone/*"
           ]
         },
         {
-          "Effect": "Allow",
-          "Action": [
+          "Effect" : "Allow",
+          "Action" : [
             "route53:ListHostedZones",
             "route53:ListResourceRecordSets",
             "route53:ListTagsForResource"
           ],
-          "Resource": [
+          "Resource" : [
             "*"
           ]
         }
@@ -125,16 +125,16 @@ resource "aws_iam_role" "cluster-autoscaler" {
   name = "${var.env}-eks-cluster-autoscaler-pod"
 
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": [
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : [
             "pods.eks.amazonaws.com"
           ]
         },
-        "Action": [
+        "Action" : [
           "sts:AssumeRole",
           "sts:TagSession"
         ]
@@ -146,11 +146,11 @@ resource "aws_iam_role" "cluster-autoscaler" {
     name = "cluster-autoscaler-policy"
 
     policy = jsonencode({
-      "Version": "2012-10-17",
-      "Statement": [
+      "Version" : "2012-10-17",
+      "Statement" : [
         {
-          "Effect": "Allow",
-          "Action": [
+          "Effect" : "Allow",
+          "Action" : [
             "autoscaling:DescribeAutoScalingGroups",
             "autoscaling:DescribeAutoScalingInstances",
             "autoscaling:DescribeLaunchConfigurations",
@@ -161,15 +161,15 @@ resource "aws_iam_role" "cluster-autoscaler" {
             "ec2:GetInstanceTypesFromInstanceRequirements",
             "eks:DescribeNodegroup"
           ],
-          "Resource": ["*"]
+          "Resource" : ["*"]
         },
         {
-          "Effect": "Allow",
-          "Action": [
+          "Effect" : "Allow",
+          "Action" : [
             "autoscaling:SetDesiredCapacity",
             "autoscaling:TerminateInstanceInAutoScalingGroup"
           ],
-          "Resource": ["*"]
+          "Resource" : ["*"]
         }
       ]
     })
