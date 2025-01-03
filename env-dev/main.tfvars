@@ -123,3 +123,8 @@ vpc = {
 
 }
 
+default_vpc = {
+  id          = "vpc-0bba12d83ca561ddc"
+  cidr        = "172.31.0.0/16"
+  route_table = "rtb-0dff91f6add78f197"
+}

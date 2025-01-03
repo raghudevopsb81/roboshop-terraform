@@ -1,9 +1,10 @@
 module "vpc" {
-  for_each   = var.vpc
-  source     = "./modules/vpc"
-  env        = var.env
-  cidr_block = each.value["cidr_block"]
-  subnets    = each.value["subnets"]
+  for_each    = var.vpc
+  source      = "./modules/vpc"
+  env         = var.env
+  cidr_block  = each.value["cidr_block"]
+  subnets     = each.value["subnets"]
+  default_vpc = var.default_vpc
 }
 
 # module "db_instances" {

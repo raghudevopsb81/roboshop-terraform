@@ -14,3 +14,7 @@ resource "aws_subnet" "subnet" {
   }
 }
 
+resource "aws_vpc_peering_connection" "main" {
+  peer_vpc_id = var.default_vpc["id"]
+  vpc_id      = aws_vpc.main.id
+}
