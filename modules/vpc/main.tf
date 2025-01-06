@@ -69,7 +69,7 @@ resource "aws_eip" "igw" {
   }
 }
 
-resource "aws_nat_gateway" "example" {
+resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.igw.id
   subnet_id     = aws_subnet.main["public"].id
 
