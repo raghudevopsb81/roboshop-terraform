@@ -23,6 +23,13 @@ resource "aws_route_table" "main" {
   }
 }
 
+resource "aws_route_table_association" "main" {
+  for_each       = var.subnets
+  subnet_id      = aws_subnet.main[each.key].id
+  route_table_id = aws_route_table.main[each.key].id
+}
+
+
 #
 # resource "aws_internet_gateway" "main" {
 #   vpc_id = aws_vpc.main.id
@@ -57,12 +64,7 @@ resource "aws_route_table" "main" {
 #   vpc_peering_connection_id = aws_vpc_peering_connection.main.id
 # }
 #
-# resource "aws_route_table_association" "main" {
-#   for_each       = var.subnets
-#   subnet_id      = aws_subnet.main[each.key].id
-#   route_table_id = aws_route_table.main[each.key].id
-# }
-#
+
 # resource "aws_eip" "igw" {
 #   domain = "vpc"
 #   tags = {
