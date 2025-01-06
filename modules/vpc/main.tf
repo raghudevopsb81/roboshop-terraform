@@ -37,23 +37,15 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-locals {
-  igw_enabled_subnets = [
-    for subnet_key, subnet_value in var.subnets : subnet_key
-    if subnet_value.igw == true
-  ]
+
+resource "aws_route" "igw" {
+  count                  = length(local.igw_enabled_subnets)
+  route_table_id         = aws_route_table.main[local.igw_enabled_subnets[count.index]].id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.main.id
 }
 
-output "igw" {
-  value = local.igw_enabled_subnets
-}
 
-# resource "aws_route" "igw" {
-#   for_each                  = var.subnets
-#   route_table_id            = null
-#   destination_cidr_block    = null
-#   gateway_id                = null
-# }
 
 # resource "aws_vpc_peering_connection" "main" {
 #   peer_vpc_id = var.default_vpc["id"]
