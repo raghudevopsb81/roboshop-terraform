@@ -78,6 +78,12 @@ resource "aws_nat_gateway" "main" {
   }
 }
 
+resource "aws_route" "ngw" {
+  route_table_id            = aws_route_table.main["private"].id
+  destination_cidr_block    = "0.0.0.0/0"
+  nat_gateway_id            = aws_nat_gateway.main.id
+}
+
 resource "aws_security_group" "test" {
   name = "test"
   vpc_id = aws_vpc.main.id
