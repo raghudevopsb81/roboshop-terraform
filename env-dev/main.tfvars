@@ -115,6 +115,7 @@ vpc = {
       public-subnet-1 = {
         cidr_block = "10.0.0.0/27"
         az         = "us-east-1a"
+        igw        = true
       }
       public-subnet-2 = {
         cidr_block = "10.0.0.32/27"
