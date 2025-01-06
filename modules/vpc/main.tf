@@ -39,7 +39,7 @@ resource "aws_internet_gateway" "main" {
 
 resource "aws_route" "igw" {
   route_table_id            = null
-  destination_cidr_block    = "0.0.0.0/0"
+  destination_cidr_block    = null
   gateway_id                = null
 }
 
