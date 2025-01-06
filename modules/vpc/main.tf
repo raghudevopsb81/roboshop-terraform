@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "subnet" {
+resource "aws_subnet" "main" {
   for_each   = var.subnets
   vpc_id     = aws_vpc.main.id
   cidr_block = each.value["cidr_block"]
@@ -13,6 +13,15 @@ resource "aws_subnet" "subnet" {
     Name = "${var.env}-${each.key}"
   }
 }
+
+resource "aws_route_table" "main" {
+  for_each   = var.subnets
+  vpc_id     = aws_vpc.main.id
+  tags = {
+    Name = "${var.env}-${each.key}"
+  }
+}
+
 
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
@@ -29,13 +38,15 @@ resource "aws_vpc_peering_connection" "main" {
 }
 
 resource "aws_route" "main" {
-  route_table_id            = aws_vpc.main.default_route_table_id
+  for_each                  = var.subnets
+  route_table_id            = aws_route_table.main[each.key].id
   destination_cidr_block    = var.default_vpc["cidr"]
   vpc_peering_connection_id = aws_vpc_peering_connection.main.id
 }
 
 resource "aws_route" "igw" {
-  route_table_id            = aws_vpc.main.default_route_table_id
+  for_each                  = var.subnets
+  route_table_id            = aws_route_table.main[each.key].id
   destination_cidr_block    = "0.0.0.0/0"
   gateway_id                = aws_internet_gateway.main.id
 }
@@ -69,11 +80,10 @@ resource "aws_security_group" "test" {
 
 }
 
-resource "aws_instance" "test" {
-  ami           = "ami-0fe5f70ea69ebc416"
-  instance_type = "t3.small"
-  vpc_security_group_ids = [aws_security_group.test.id]
-  subnet_id = aws_subnet.subnet["two"].id
-  associate_public_ip_address = true
-}
+# resource "aws_instance" "test" {
+#   ami           = "ami-0fe5f70ea69ebc416"
+#   instance_type = "t3.small"
+#   vpc_security_group_ids = [aws_security_group.test.id]
+#   subnet_id = aws_subnet.subnet["two"].id
+# }
 
