@@ -37,6 +37,23 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+resource "aws_eip" "igw" {
+  count  = length(local.az)
+  domain = "vpc"
+  tags = {
+    Name = "${var.env}-ngw"
+  }
+}
+
+resource "aws_nat_gateway" "main" {
+  count         = length(local.az)
+  allocation_id = aws_eip.igw[count.index].id
+  subnet_id     = aws_subnet.main[local.igw_enabled_subnets[count.index]].id
+
+  tags = {
+    Name = "${var.env}-ngw"
+  }
+}
 
 resource "aws_route" "igw" {
   count                  = length(local.igw_enabled_subnets)
@@ -73,22 +90,7 @@ resource "aws_route" "igw" {
 # }
 #
 
-# resource "aws_eip" "igw" {
-#   domain = "vpc"
-#   tags = {
-#     Name = "${var.env}-ngw"
-#   }
-# }
-#
-# resource "aws_nat_gateway" "main" {
-#   allocation_id = aws_eip.igw.id
-#   subnet_id     = aws_subnet.main["public"].id
-#
-#   tags = {
-#     Name = "${var.env}-ngw"
-#   }
-# }
-#
+
 # resource "aws_route" "ngw" {
 #   route_table_id            = aws_route_table.main["private"].id
 #   destination_cidr_block    = "0.0.0.0/0"
