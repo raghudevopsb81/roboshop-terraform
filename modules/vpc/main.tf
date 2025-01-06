@@ -62,6 +62,12 @@ resource "aws_route_table_association" "main" {
   route_table_id = aws_route_table.main[each.key].id
 }
 
+resource "aws_eip" "igw" {
+  domain = "vpc"
+}
+
+
+
 resource "aws_security_group" "test" {
   name = "test"
   vpc_id = aws_vpc.main.id
