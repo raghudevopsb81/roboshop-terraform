@@ -64,6 +64,9 @@ resource "aws_route_table_association" "main" {
 
 resource "aws_eip" "igw" {
   domain = "vpc"
+  tags = {
+    Name = "${var.env}-ngw"
+  }
 }
 
 
