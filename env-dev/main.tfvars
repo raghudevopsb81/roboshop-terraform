@@ -120,6 +120,7 @@ vpc = {
       public-subnet-2 = {
         cidr_block = "10.0.0.32/27"
         az         = "us-east-1b"
+        igw        = true
       }
       db-subnet-1 = {
         cidr_block = "10.0.0.64/27"
