@@ -69,7 +69,14 @@ resource "aws_eip" "igw" {
   }
 }
 
+resource "aws_nat_gateway" "example" {
+  allocation_id = aws_eip.igw.id
+  subnet_id     = aws_subnet.main["public"].id
 
+  tags = {
+    Name = "${var.env}-ngw"
+  }
+}
 
 resource "aws_security_group" "test" {
   name = "test"
