@@ -69,39 +69,28 @@ resource "aws_route" "ngw" {
   nat_gateway_id         = element(aws_nat_gateway.main.*.id, count.index)
 }
 
-# resource "aws_vpc_peering_connection" "main" {
-#   peer_vpc_id = var.default_vpc["id"]
-#   vpc_id      = aws_vpc.main.id
-#   auto_accept = true
-# }
-#
-# resource "aws_route" "main" {
-#   for_each                  = var.subnets
-#   route_table_id            = aws_route_table.main[each.key].id
-#   destination_cidr_block    = var.default_vpc["cidr"]
-#   vpc_peering_connection_id = aws_vpc_peering_connection.main.id
-# }
-#
-# resource "aws_route" "igw" {
-#   route_table_id            = aws_route_table.main["public"].id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   gateway_id                = aws_internet_gateway.main.id
-# }
-#
-# resource "aws_route" "default-vpc-route-table" {
-#   route_table_id            = var.default_vpc["route_table"]
-#   destination_cidr_block    = var.cidr_block
-#   vpc_peering_connection_id = aws_vpc_peering_connection.main.id
-# }
-#
+resource "aws_vpc_peering_connection" "main" {
+  peer_vpc_id = var.default_vpc["id"]
+  vpc_id      = aws_vpc.main.id
+  auto_accept = true
+}
+
+resource "aws_route" "main" {
+  for_each                  = var.subnets
+  route_table_id            = aws_route_table.main[each.key].id
+  destination_cidr_block    = var.default_vpc["cidr"]
+  vpc_peering_connection_id = aws_vpc_peering_connection.main.id
+}
+
+resource "aws_route" "default-vpc-route-table" {
+  route_table_id            = var.default_vpc["route_table"]
+  destination_cidr_block    = var.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.main.id
+}
 
 
-# resource "aws_route" "ngw" {
-#   route_table_id            = aws_route_table.main["private"].id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   nat_gateway_id            = aws_nat_gateway.main.id
-# }
-#
+
+
 # resource "aws_security_group" "test" {
 #   name = "test"
 #   vpc_id = aws_vpc.main.id
