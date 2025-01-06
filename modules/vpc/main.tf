@@ -34,7 +34,7 @@ resource "aws_route" "main" {
   vpc_peering_connection_id = aws_vpc_peering_connection.main.id
 }
 
-resource "aws_route" "main" {
+resource "aws_route" "igw" {
   route_table_id            = aws_vpc.main.default_route_table_id
   destination_cidr_block    = "0.0.0.0/0"
   gateway_id                = aws_internet_gateway.main.id
