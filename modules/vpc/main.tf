@@ -66,7 +66,7 @@ resource "aws_route" "ngw" {
   count                  = length(local.ngw_enabled_subnets)
   route_table_id         = aws_route_table.main[local.igw_enabled_subnets[count.index]].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.main[count.index].id
+  nat_gateway_id         = element(aws_nat_gateway.main.*.id, count.index)
 }
 
 # resource "aws_vpc_peering_connection" "main" {
