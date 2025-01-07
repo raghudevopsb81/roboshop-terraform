@@ -18,6 +18,7 @@ module "vpc" {
 #   zone_id        = var.zone_id
 #   vault_token    = var.vault_token
 #   volume_size    = each.value["volume_size"]
+#   subnet_id      = ""
 # }
 
 # module "app_instances" {
