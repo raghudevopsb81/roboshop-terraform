@@ -63,10 +63,10 @@ module "vpc" {
 # }
 #
 
-output "vpc" {
-  value = module.vpc
-}
+# output "vpc" {
+#   value = module.vpc
+# }
 
 output "vpc_id" {
-  value = lookup(module.vpc.vpc_id, "main", null)
+  value = lookup(module.vpc, "main", null)
 }
