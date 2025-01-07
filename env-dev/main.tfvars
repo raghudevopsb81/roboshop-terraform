@@ -1,6 +1,6 @@
-env         = "dev"
-domain_name = "rdevopsb81.online"
-zone_id     = "Z02249652EM5BAO495DZ1"
+env           = "dev"
+domain_name   = "rdevopsb81.online"
+zone_id       = "Z02249652EM5BAO495DZ1"
 bastion_nodes = ["172.31.18.89/32", "172.31.40.16/32"]
 
 db_instances = {
@@ -76,7 +76,6 @@ web_instances = {
 }
 
 eks = {
-  subnet_ids = ["subnet-0792461b5224de598", "subnet-033b518ba99521b88"]
   addons = {
     vpc-cni                = {}
     kube-proxy             = {}

@@ -20,9 +20,9 @@ module "db_instances" {
   vault_token    = var.vault_token
   volume_size    = each.value["volume_size"]
   vpc_id         = lookup(lookup(module.vpc, "main", null), "vpc_id", null)
-  subnet_id      = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), "db-subnet-1", null), "id" , null)
+  subnet_id      = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), "db-subnet-1", null), "id", null)
   #subnet_id      = module.vpc.db_subnets[0]
-  bastion_nodes  = var.bastion_nodes
+  bastion_nodes = var.bastion_nodes
 }
 
 # module "app_instances" {
@@ -54,16 +54,18 @@ module "db_instances" {
 #   volume_size    = each.value["volume_size"]
 # }
 #
-# module "eks" {
-#   source = "./modules/eks"
-#
-#   env = var.env
-#   subnet_ids = var.eks["subnet_ids"]
-#   addons     = var.eks["addons"]
-#   node_groups = var.eks["node_groups"]
-#   access_entries = var.eks["access_entries"]
-# }
-#
+
+module "eks" {
+  source = "./modules/eks"
+
+  env            = var.env
+  addons         = var.eks["addons"]
+  node_groups    = var.eks["node_groups"]
+  access_entries = var.eks["access_entries"]
+  vpc_id         = lookup(lookup(module.vpc, "main", null), "vpc_id", null)
+  subnet_ids     = lookup(lookup(module.vpc, "main", null), "app_subnets", null)
+}
+
 
 # output "vpc" {
 #   value = module.vpc
