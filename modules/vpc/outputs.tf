@@ -2,7 +2,8 @@ output "igw" {
   value = local.igw_enabled_subnets
 }
 
-output "subnets" {
-  value = aws_subnet.main
+output "db_subnets" {
+  value = [ for subnet_key, subnet_value in var.subnets : subnet_key if subnet_value.subnet_group == "db" ]
 }
+
 
