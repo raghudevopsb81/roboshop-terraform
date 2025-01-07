@@ -14,6 +14,7 @@ module "db_instances" {
   app_port       = each.value["app_port"]
   component_name = each.key
   instance_type  = each.value["instance_type"]
+  allow_cidr     = each.value["allow_cidr"]
   domain_name    = var.domain_name
   zone_id        = var.zone_id
   vault_token    = var.vault_token

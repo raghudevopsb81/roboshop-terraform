@@ -9,4 +9,5 @@ variable "volume_size" {}
 variable "subnet_id" {}
 variable "vpc_id" {}
 variable "bastion_nodes" {}
+variable "allow_cidr" {}
 
