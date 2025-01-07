@@ -3,7 +3,7 @@ output "igw" {
 }
 
 output "db_subnets" {
-  value = [ for subnet_key, subnet_value in var.subnets : subnet_key if subnet_value.subnet_group == "db" ]
+  value = [ for subnet_key, subnet_value in aws_subnet.main : subnet_value.id if subnet_value.subnet_group == "db" ]
 }
 
 
