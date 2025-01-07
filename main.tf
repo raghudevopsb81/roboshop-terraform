@@ -18,7 +18,8 @@ module "db_instances" {
   zone_id        = var.zone_id
   vault_token    = var.vault_token
   volume_size    = each.value["volume_size"]
-  subnet_id      = lookup(lookup(lookup(module.vpc, "subnets", null), "db-subnet-1", null), "id" , null)
+  vpc_id         = lookup(lookup(module.vpc, "main", null), "vpc_id", null)
+  subnet_id      = lookup(lookup(lookup(lookup(module.vpc, "main", null), "subnets", null), "db-subnet-1", null), "id" , null)
   #subnet_id      = module.vpc.db_subnets[0]
 }
 
