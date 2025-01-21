@@ -2,6 +2,7 @@ env           = "dev"
 domain_name   = "rdevopsb81.online"
 zone_id       = "Z02249652EM5BAO495DZ1"
 bastion_nodes = ["172.31.18.89/32", "172.31.40.16/32"]
+kms_key_id    = "arn:aws:kms:us-east-1:897722697588:key/86a46dab-1901-4e4e-8879-da2119d44c6d"
 
 db_instances = {
   mongodb = {
