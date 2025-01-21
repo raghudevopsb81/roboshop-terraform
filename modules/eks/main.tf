@@ -63,7 +63,7 @@ resource "aws_eks_node_group" "main" {
 
 resource "aws_launch_template" "main" {
   for_each = var.node_groups
-  name     = each.key
+  name     = "${each.key}-al"
 
   block_device_mappings {
     device_name = "/dev/xvda"
