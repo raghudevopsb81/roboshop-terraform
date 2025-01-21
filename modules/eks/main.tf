@@ -49,6 +49,11 @@ resource "aws_eks_node_group" "main" {
   capacity_type   = each.value["capacity_type"]
   instance_types  = each.value["instance_types"]
 
+  launch_template {
+    name    = each.key
+    version = "$Latest"
+  }
+
   scaling_config {
     desired_size = each.value["desired_size"]
     max_size     = each.value["max_size"]
@@ -56,6 +61,23 @@ resource "aws_eks_node_group" "main" {
   }
 }
 
+resource "aws_launch_template" "main" {
+  for_each = var.node_groups
+  name     = each.key
+
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size = 30
+      encrypted   = true
+      kms_key_id  = var.kms_key_id
+    }
+  }
+
+  tags = {
+    Name = each.key
+  }
+}
 
 
 
