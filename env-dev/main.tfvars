@@ -103,7 +103,7 @@ eks = {
   }
 
   node_groups = {
-    g1 = {
+    ngone = {
       desired_size   = 2
       max_size       = 10
       min_size       = 2
