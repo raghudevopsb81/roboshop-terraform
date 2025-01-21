@@ -50,7 +50,7 @@ resource "aws_eks_node_group" "main" {
   instance_types  = each.value["instance_types"]
 
   launch_template {
-    name    = each.key
+    name    = aws_launch_template.main[each.key].name
     version = "$Latest"
   }
 
