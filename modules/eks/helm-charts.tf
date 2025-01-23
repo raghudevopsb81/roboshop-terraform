@@ -152,3 +152,42 @@ resource "helm_release" "cluster-autoscaler" {
 
 }
 
+# Istio Base
+resource "helm_release" "istio-base" {
+  depends_on = [
+    null_resource.kube-bootstrap
+  ]
+
+  name             = "istio-base"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "base"
+  namespace        = "istio-system"
+  create_namespace = true
+  wait             = true
+}
+
+# IstioD
+resource "helm_release" "istiod" {
+  depends_on = [
+    null_resource.kube-bootstrap,
+    helm_release.istio-base
+  ]
+
+  name             = "istiod"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "istiod"
+  namespace        = "istio-system"
+  create_namespace = true
+  wait             = true
+}
+
+# Istio Pre Setup
+resource "null_resource" "istio-pre-app-setup" {
+  depends_on = [helm_release.istiod]
+  provisioner "local-exec" {
+    command = <<EOF
+kubectl label namespace default istio-injection=enabled --overwrite
+kubectl apply -f ${path.module}/helm-config/istio-pre-app-setup.yml
+EOF
+  }
+}
