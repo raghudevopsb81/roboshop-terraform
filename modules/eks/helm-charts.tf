@@ -180,14 +180,3 @@ resource "helm_release" "istiod" {
   create_namespace = true
   wait             = true
 }
-
-# Istio Pre Setup
-resource "null_resource" "istio-pre-app-setup" {
-  depends_on = [helm_release.istiod]
-  provisioner "local-exec" {
-    command = <<EOF
-kubectl label namespace default istio-injection=enabled --overwrite
-kubectl apply -f ${path.module}/helm-config/istio-pre-app-setup.yml
-EOF
-  }
-}
